@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  <title>Image search</title>
-  <link rel="stylesheet" href="../src/css/styles.css">
-</head>
-
-<body>
-  <header class="header">
-    <div class="header-container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search imeges (HW11)</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="container">
       <form class="search-form" id="search-form">
-        <input class="input" type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." autofocus
-          required />
-        <button class="button-search" type="submit">Search</button>
-        <br>
-        <label class="check-box">
-          <input class="infinity-check" type="checkbox" name="onScroll" />
-          <span>infinite scroll</span>
-        </label>
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button class="button" type="submit">Search</button>
       </form>
     </div>
-  </header>
-  <main>
-    <div class="wrapper">
-      <div class="gallery">
-      </div>
-      <div class="js-guard"></div>
-      <button type="button" class="load-more is-hidden">Load more</button>
-    </div>
-  </main>
-  <script type="module" src="./index.js"></script>
-</body>
 
+    <div class="gallery">
+      <!-- Картки зображень -->
+    </div>
+
+    <div class="button-container">
+      <button type="button" class="load-more load-more-hidden">
+        Load more
+      </button>
+    </div>
+
+    <div class="btn-up btn-up_hide"></div>
+
+    <script src="index.js" type="module"></script>
+  </body>
 </html>
