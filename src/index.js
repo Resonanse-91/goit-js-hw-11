@@ -7,13 +7,11 @@ const form = document.querySelector('.search-form');
 const containerGallery = document.querySelector('.gallery');
 const guard = document.querySelector('.guard');
 
-
 const simpleLightBox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt', 
   captionDelay: 250, 
   captionPosition: 'bottom',
 });
-
 
 const limit = 40;
 let page = 1;
@@ -25,53 +23,64 @@ const options = {
 
 let observer = new IntersectionObserver(handlerLoadMore, options);
 
-form.addEventListener('submit', getImages);
+form.addEventListener('submit', onFormSubmit);
 
-function getImages(evt) {
+async function onFormSubmit(evt) {
     evt.preventDefault();
+    observer.unobserve(guard);
     containerGallery.innerHTML = '';
-        const name = form.searchQuery.value;
-    if (name !== '') {
-          fetchImages(name)
-              .then((resp) => {
-                 createMarkup(resp.data);
-       Notiflix.Notify.info(`Hooray! We found ${resp.data.totalHits} images.`)
-                 const totalPage = Math.ceil(resp.data.totalHits / limit);
-                 if (page < totalPage) {
-                     observer.observe(guard);
-                  }  
-             })
-              .catch((err) => {
-                 console.log(err);
+    page = 1;
+        const name = form.searchQuery.value.trim();
+    if (name === '') {
+        return;
+    }
+
+    try {
+        const {hits, totalHits} = await fetchImages(name, page);
+              
+                 createMarkup(hits);
+       Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`)
+        const totalPage = Math.ceil(totalHits / limit);
+        observer.observe(guard);
+                 if (page === totalPage) {
+                     observer.unobserve(guard);
+                     Notiflix.Notify.info(" We're sorry, but you've reached the end of search results.");
+                  }
+    } catch (error) {
+        console.log(error);
                   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-             })
-        } 
-    } 
+    }
+} 
+    
     
 
 function handlerLoadMore(entries) {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-        page += 1;
-        const name = form.searchQuery.value;
-        fetchImages(name, page)
-            .then((resp) => {
-                createMarkup(resp.data);
-                let totalPage = Math.ceil(resp.data.totalHits / limit);
+  entries.forEach((async entry) => {
+      if (entry.isIntersecting) {
+          console.log(page);
+          page += 1;
+          console.leg(page);
+          const name = form.searchQuery.value.trim();
+          
+        try {
+            const { hits, totalHits } = await fetchImages(name, page);
+            
+                createMarkup(hits);
+                let totalPage = Math.ceil(totalHits / limit);
                  if (page === totalPage) {
                      observer.unobserve(guard);
                       form.reset()
                      Notiflix.Notify.info(" We're sorry, but you've reached the end of search results.");
                 }
-            }).catch(err => {
-                console.log(err);
+        } catch (error) {
+            console.log(error);
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-            })
+        }
         }
   });
 }
-function createMarkup(arr) {
-    const markup = arr.hits
+function createMarkup(images) {
+    const markup = images
         .map(
             item =>
                 `<a class="photo-link" href="${item.largeImageURL}">
