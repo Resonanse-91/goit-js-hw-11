@@ -55,7 +55,7 @@ async function onFormSubmit(evt) {
     
 
 function handlerLoadMore(entries) {
-  entries.forEach((async entry) => {
+  entries.forEach(async entry) => {
       if (entry.isIntersecting) {
           console.log(page);
           page += 1;
@@ -77,7 +77,7 @@ function handlerLoadMore(entries) {
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         }
         }
-  });
+  };
 }
 function createMarkup(images) {
     const markup = images
