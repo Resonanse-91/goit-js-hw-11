@@ -50,16 +50,14 @@ async function onFormSubmit(evt) {
         console.log(error);
                   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     }
-} 
-    
-    
+}     
 
 function handlerLoadMore(entries) {
-  entries.forEach(async entry) => {
+  entries.forEach(async entry => {
       if (entry.isIntersecting) {
           console.log(page);
           page += 1;
-          console.leg(page);
+          console.log(page);
           const name = form.searchQuery.value.trim();
           
         try {
@@ -75,9 +73,9 @@ function handlerLoadMore(entries) {
         } catch (error) {
             console.log(error);
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-        }
-        }
-  };
+          };
+        };
+  });
 }
 function createMarkup(images) {
     const markup = images
