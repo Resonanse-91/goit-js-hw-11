@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { fetchImages } from "./fetch.js";
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";

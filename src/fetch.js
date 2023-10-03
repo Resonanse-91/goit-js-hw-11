@@ -27,4 +27,4 @@ async function fetchImages(name) {
     return resp
     }   
 
-export { fetchImg };
+export default { fetchImg, fetchImages };
